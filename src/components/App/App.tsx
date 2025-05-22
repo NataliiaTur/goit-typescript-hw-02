@@ -1,29 +1,30 @@
 import { Toaster } from "react-hot-toast";
-import "./App.css";
-import SearchBar from "./components/SearchBar/SearchBar";
+import "./App.module.css";
+import SearchBar from "../SearchBar/SearchBar";
 import { useState, useEffect } from "react";
-import ImageGallery from "./components/ImageGallery/ImageGallery";
+import ImageGallery from "../ImageGallery/ImageGallery";
 import BeatLoader from "react-spinners/BeatLoader";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { getImages } from "./components/ApiServices/api";
-import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
-import ImageModal from "./components/ImageModal/ImageModal";
+import { getImages } from "../ApiServices/api";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ImageModal from "../ImageModal/ImageModal";
+import { ImageItem } from "./App.types";
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [images, setImages] = useState([]);
-  const [error, setError] = useState(null);
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalSrc, setModalSrc] = useState("");
-  const [modalAlt, setModalAlt] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [images, setImages] = useState<ImageItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [modalSrc, setModalSrc] = useState<string>("");
+  const [modalAlt, setModalAlt] = useState<string>("");
 
   useEffect(() => {
     if (!query) return;
@@ -37,7 +38,6 @@ function App() {
 
       try {
         const data = await getImages(query, page);
-
         if (data.results.length === 0) {
           toast("No image found of your request!");
           setIsEmpty(true);
@@ -71,7 +71,7 @@ function App() {
     fetchImages();
   }, [page, query]);
 
-  const handleSearch = (value) => {
+  const handleSearch = (value: string) => {
     setQuery(value);
     setImages([]);
     setPage(1);
@@ -80,11 +80,11 @@ function App() {
     setIsVisible(false);
   };
 
-  const closeModal = () => {
+  const closeModal = (modalSrc: string, modalAlt: string): void => {
     setModalIsOpen(false);
   };
 
-  const openModal = (modalSrc, modalAlt) => {
+  const openModal = (modalSrc: string, modalAlt: string) => {
     setModalIsOpen(true);
     setModalSrc(modalSrc);
     setModalAlt(modalAlt);

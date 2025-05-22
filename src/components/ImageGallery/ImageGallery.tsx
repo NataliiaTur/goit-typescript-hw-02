@@ -1,21 +1,19 @@
+import { ImageItem } from "../App/App.types";
 import ImageCard from "../ImageCard/ImageCard";
 import css from "./ImageGallery.module.css";
 
-const ImageGallery = ({ images, openModal }) => {
+interface ImageGalleryProps {
+  images: ImageItem[];
+  openModal: (src: string, alt: string) => void;
+}
+const ImageGallery = ({ images, openModal }: ImageGalleryProps) => {
   return (
     <div>
       <ul className={css.galleryList}>
         {images.map((image) => {
           return (
             <li key={image.id}>
-              <ImageCard
-                id={image.id}
-                small={image.urlSm}
-                regular={image.urlReg}
-                likes={image.likes}
-                description={image.alt}
-                openModal={openModal}
-              />
+              <ImageCard image={image} openModal={openModal} />
             </li>
           );
         })}
