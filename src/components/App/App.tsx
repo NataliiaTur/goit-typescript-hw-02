@@ -80,7 +80,7 @@ function App() {
     setIsVisible(false);
   };
 
-  const closeModal = (modalSrc: string, modalAlt: string): void => {
+  const closeModal = (): void => {
     setModalIsOpen(false);
   };
 
